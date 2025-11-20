@@ -12,6 +12,7 @@ class MainApplicatio(tk.Tk):
         self.columnconfigure(0, weight=1)
 
         self.central_D = ft.central(self)
+        self.central_D.grid(row=0, column= 0)
         
 
 application = MainApplicatio()

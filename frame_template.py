@@ -37,33 +37,29 @@ class central(tk.Frame):
         self.to_do_list_button.grid (row=1,column=3)
 
 
-# possible modulisation of the seperate frames
-# class Module(tk.Toplevel):
-#     def __init__(self,master=None):
-#         super().__init__(master)
-#         self.geometry ("1000x700")
+#possible modulisation of the seperate frames
+class Module(tk.Toplevel):
+    def __init__(self,master=None):
+        super().__init__(master)
+        self.geometry ("1000x700")
 
-#         self.columnconfigure(0,weight=1)
-#         self.rowconfigure(0, weight=1)
+        self.columnconfigure(0,weight=1)
+        self.rowconfigure(0, weight=1)
 
-#         self.flashcard_label = tk.Label(self,text="Flashcard ahh frame",borderwidth=3, relief="groove")
-#         self.flashcard_label.grid(row=0,column=0)
+        self.flashcard_label = tk.Label(self,text="Flashcard ahh frame",borderwidth=3, relief="groove")
+        self.flashcard_label.grid(row=0,column=0)
 
+class flashcard_module(tk.Toplevel):
+    def __init__(self,master=None):
+        super().__init__(master)
+        self.title = ("Flashcard Module")
+        self.geometry ("1000x700")
 
-# class flshcrd_mod (Module):
-#     self.title = 
+        self.columnconfigure(0,weight=1)
+        self.rowconfigure(0, weight=1)
 
-# class flashcard_module(tk.Toplevel):
-#     def __init__(self,master=None):
-#         super().__init__(master)
-#         self.title = ("Flashcard Module")
-#         self.geometry ("1000x700")
-
-#         self.columnconfigure(0,weight=1)
-#         self.rowconfigure(0, weight=1)
-
-#         self.flashcard_label = tk.Label(self,text="Flashcard ahh frame",borderwidth=3, relief="groove")
-#         self.flashcard_label.grid(row=0,column=0)
+        self.flashcard_label = tk.Label(self,text="Flashcard ahh frame",borderwidth=3, relief="groove")
+        self.flashcard_label.grid(row=0,column=0)
 
 
 #button functions to open the different modules
@@ -81,7 +77,7 @@ def notepad_mode(self):
     print(notepad_open)
     if notepad_open == False:
         notepad_open   = True
-        mods.flashcard_module(self)
+        mods.notepad_module(self)
     else:
         print("Notepad is already open")
 
@@ -90,7 +86,7 @@ def calender_mode(self):
     print(calender_open)
     if calender_open == False:
         calender_open = True
-        mods.flashcard_module(self)
+        mods.calender_module(self)
     else:
         print("calender mode is already open")
 
@@ -99,6 +95,6 @@ def to_do_list_mode(self):
     print(to_do_list_open)
     if to_do_list_open == False:
         to_do_list_open = True
-        mods.flashcard_module(self)
+        mods.to_do_list_module(self)
     else:
         print("To-do list is already open")

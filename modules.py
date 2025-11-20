@@ -11,6 +11,3 @@ class flashcard_module(tk.Toplevel):
 
         self.flashcard_label = tk.Label(self,text="Flashcard ahh frame",borderwidth=3, relief="groove")
         self.flashcard_label.grid(row=0,column=0)
-
-
-class 

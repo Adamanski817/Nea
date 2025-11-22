@@ -1,5 +1,5 @@
 import tkinter as tk
-import functions as func
+#import functions as func
 import modules as mods 
 
 flashcard_open = False

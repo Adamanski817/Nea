@@ -31,81 +31,175 @@ class flashcard_module(tk.Toplevel):
 
 
 class notepad_module(tk.Toplevel):
-    def __init__(self,master=None):
-        super().__init__(master)
+    def __init__(self,parent):
+        super().__init__(parent)
+        self.parent= parent
+        self.geometry("800x650")
         self.title("Notepad Module")
-        self.geometry("675x375")
 
-        self.columnconfigure(0,weight=1)
+
         self.rowconfigure(0,weight=1)
+        self.columnconfigure(0,weight=1)
 
-        self.notepad_frame = tk.Frame(self,borderwidth=3)
+        self.notepad_frame= notepad_init_frame(self)
         self.notepad_frame.grid(row=0,column=0)
 
+
+class notepad_init_frame(tk.Frame):
+    def __init__(self,notepad_parent):
+        super().__init__(notepad_parent)
+        self.notepad_parent = notepad_parent
+
         for i in range(2):
-            self.notepad_frame.rowconfigure(i,weight=1)
+            self.rowconfigure(i,weight=1)
         
-        self.notepad_frame.columnconfigure(0,weight=1)
-        self.notepad_frame.columnconfigure(1,weight=1)
+        self.columnconfigure(0,weight=1)
+        self.columnconfigure(1,weight=1)
 
-
-        global open_new_notepad
-        self.new_text_btn = tk.Button(self.notepad_frame,text="Create a new text file new", command= lambda:open_new_notepad(self.notepad_frame,self.notepad_write_frame))
+        self.new_text_btn = tk.Button(self,text="Create a new text file new",command = self.open_new_notepad)
         self.new_text_btn.grid(row=0,column=0,padx=10)
 
-        self.open_text_btn = tk.Button (self.notepad_frame,text="Open a text file")
+        self.open_text_btn = tk.Button (self,text="Open a text file", command= self.select_new_notepad)
         self.open_text_btn.grid (row=0, column=1,padx=10)
 
-        
-        
-        self.notepad_write_frame = tk.Frame(self,borderwidth=3)
+        self.grid(row=0,column=0)
 
+    def open_new_notepad(self):
+        print ("opening new notepad")
+        self.notepad_parent.notepad_frame.destroy()
+        self.notepad_parent.notepad_frame= notepad_edit_frame(self.notepad_parent)
+
+    def select_new_notepad(self):
+        print("Selecting a new notepad")
+        self.notepad_parent.notepad_frame.destroy()
+        self.notepad_parent.notepad_frame= notepad_select_frame(self.notepad_parent)
+
+class notepad_edit_frame(tk.Frame):
+    def __init__(self,notepad_parent):
+        super().__init__(notepad_parent)
+        self.notepad_parent = notepad_parent
+
+        for i in range (3):
+            self.rowconfigure(i,weight=1)
 
         for i in range(2):
-            self.notepad_write_frame.rowconfigure(i,weight=1)
+            self.columnconfigure(i,weight=1)
+
+        self.title = tk.Label(self,text= "Untitled")
+        self.title.grid(row=0,column=0)
+
+        self.text_box= tk.Text(self,width= 50, height= 35)
+        self.text_box.grid(row=1,column=0)
+
+        self.exit_button = tk.Button(self,text="Save and exit",command = self.exit_notepad ,borderwidth=3)
+        self.exit_button.grid(row=0,column=1)
+
+        self.grid(row=0,column=0)
+
+
+    def exit_notepad(self):
+        print("exiting notepads")
+        self.notepad_parent.notepad_frame.destroy()
+        self.notepad_parent.notepad_frame= notepad_init_frame(self.notepad_parent)
+
+class notepad_select_frame(tk.Frame):
+    def __init__(self,notepad_parent):
+        super().__init__(notepad_parent)
+        self.notepad_parent = notepad_parent
+
+        self.columnconfigure (1,weight=1)
+        for i in range(8):
+            self.rowconfigure (i,weight=1)
+
+        self.notepad_select_title = tk.Label(self,text= "Select the page you want to edit")
+        self.notepad_select_title.grid(row=0,column=0)
         
-        self.notepad_write_frame.columnconfigure(0,weight=1)
-        self.notepad_write_frame.columnconfigure(1,weight=1)
+        for i in range(5):
+            self.notepad_i = tk.Button(self,text = f" Example page {i}", command = self.open_new_notepad)
+            self.notepad_i.grid(row=i+2 ,column=0)
 
-        self.notepad_title= tk.Entry (self.notepad_write_frame,textvariable= "Untitled Notepad")
-        self.notepad_title.grid(row=0,column=0)
+        self.exit_button = tk.Button(self,text="Back",command= self.exit_notepad)
+        self.exit_button.grid(row=1,column=0)
 
-        def open_new_notepad (self):
-            self.notepad_frame.forget
-            self.notepad_frame_write.grid(row=0,column=0)
+        self.grid(row=0,column=0)
 
-        #replace the notepad_frame with the notepad_write_frame
-            
+    def open_new_notepad(self):
+        self.notepad_parent.notepad_frame.destroy()
+        self.notepad_parent.notepad_frame= notepad_edit_frame(self.notepad_parent)    
 
+    def exit_notepad(self):
+        print("exiting notepads")
+        self.notepad_parent.notepad_frame.destroy()
+        self.notepad_parent.notepad_frame= notepad_init_frame(self.notepad_parent)
 
-# class notepad (tk.Toplevel):
-#     def __init__(self,master=None):
-#         super().__init__(master)
-#         self.title("Notepad")
-#         self.geometry ("300x250")
-
-#         self.notepad_write_frame = tk.Frame(self,borderwidth=3)
-
-#         for i in range(2):
-#             self.notepad_write_frame.rowconfigure(i,weight=1)
-        
-#         self.notepad_write_frame.columnconfigure(0,weight=1)
-#         self.notepad_write_frame.columnconfigure(1,weight=1)
-
-#         self.notepad_title= tk.Entry (self.notepad_write_frame,textvariable= "Untitled Notepad")
-#         self.notepad_title.grid(row=0,column=0)
 
 class calender_module(tk.Toplevel):
-    def __init__(self,master=None):
-        super().__init__(master)
+    def __init__(self,parent):
+        super().__init__(parent)
         self.title("calender Module")
-        self.geometry ("375x300")
+        self.geometry ("1100x700")
 
         self.columnconfigure(0,weight=1)
         self.rowconfigure(0, weight=1)
 
-        self.calender_label = tk.Label(self,text="Calender",borderwidth=3, relief="groove")
-        self.calender_label.grid(row=0,column=0)
+        self.calender_frame= calender_frame(self)
+        self.calender_frame.grid(row=0,column=0)
+
+class calender_frame(tk.Frame):
+    def __init__(self,calender_parent):
+        super().__init__(calender_parent)
+        self.calender_parent = calender_parent
+
+        for i in range(17):
+            self.rowconfigure(i, weight=1)
+
+        for y in range(9):
+            self.columnconfigure(y, weight=1)
+
+        for i in range(17):
+            for y in range(8):
+                self.time_slot=tk.Label(self,text= f"Event no {i+y}",relief="groove", borderwidth=3,height=10,width=9)
+                self.time_slot.grid(row=i,column=y,padx=10, pady=3)
+
+        self.add_event_button = tk.Button(self,text="Add an event", command= self.add_new_event)
+        self.add_event_button.grid(row=16,column=9)
+
+    def add_new_event(self):
+        print("Adding new event")
+        new_event_popup(self)
+
+class new_event_popup(tk.Toplevel):
+    def __init__(self,parent):
+        super().__init__(parent)
+        self.title("Add new event")
+        self.geometry ("300x400")
+
+        self.columnconfigure(0,weight=1)
+        self.columnconfigure(1,weight=1)
+        for i in range(7):
+            self.rowconfigure(i, weight=1)
+
+        self.event_title_title = tk.Label(self,text="Title of event")
+        self.event_title_title.grid(column=0,row=0)
+
+        self.event_title_input = tk.Entry(self)
+        self.event_title_input.grid(row=1,column=0,columnspan=1)
+
+        self.time_block_label = tk.Label(self,text="select time block")
+        self.time_block_label.grid(column=0,row=2)
+
+        self.time_block_input = tk.Entry(self)
+        self.time_block_input.grid(column=0,row=3)
+
+        self.save_event = tk.Button(self,text="finish and save",command = self.save_event)
+        self.save_event.grid(row=4, column= 0)
+
+    def save_event(self):
+        print("Saving event")
+        self.destroy()
+        
+
+
 
 class to_do_list_module(tk.Toplevel):
     def __init__(self,master=None):

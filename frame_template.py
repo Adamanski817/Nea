@@ -1,6 +1,7 @@
 import tkinter as tk
 #import functions as func
-import modules as mods 
+import modules as mods
+import global_variables as gv
 
 flashcard_open = False
 notepad_open = False
@@ -64,37 +65,31 @@ class flashcard_module(tk.Toplevel):
 
 #button functions to open the different modules
 def flashcard_mode(self):
-    global flashcard_open
-    print(flashcard_open)
-    if flashcard_open == False:
-        flashcard_open = True
+    # global flashcard_open
+    # print(flashcard_open)
+    if gv.flashcard_open == False:
+        gv.flashcard_open = True
         mods.flashcard_module(self)
     else:
         print("Flashcard is already open")
 
 def notepad_mode(self):
-    global notepad_open
-    print(notepad_open)
-    if notepad_open == False:
-        notepad_open   = True
+    if gv.notepad_open == False:
+        gv.notepad_open   = True
         mods.notepad_module(self)
     else:
         print("Notepad is already open")
 
 def calender_mode(self):
-    global calender_open
-    print(calender_open)
-    if calender_open == False:
-        calender_open = True
+    if gv.calender_open == False:
+        gv.calender_open = True
         mods.calender_module(self)
     else:
         print("calender mode is already open")
 
 def to_do_list_mode(self):
-    global to_do_list_open
-    print(to_do_list_open)
-    if to_do_list_open == False:
-        to_do_list_open = True
+    if gv.to_do_list_open == False:
+        gv.to_do_list_open = True
         mods.to_do_list_module(self)
     else:
         print("To-do list is already open")

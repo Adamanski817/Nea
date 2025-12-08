@@ -1,4 +1,6 @@
 import tkinter as tk
+import frame_template as ft
+import global_variables as gv
 
 add_item_open = False
 
@@ -20,11 +22,30 @@ class flashcard_module(tk.Toplevel):
         self.title("Flashcard Module")
         self.geometry ("1000x700")
 
-        self.columnconfigure(0,weight=1)
+        for i in range(3):
+            self.columnconfigure(i,weight=1)
         self.rowconfigure(0, weight=1)
+        self.rowconfigure(1, weight=1)
 
-        self.flashcard_label = tk.Label(self,text="Flashcard ahh frame",borderwidth=3, relief="groove")
-        self.flashcard_label.grid(row=0,column=0)
+        self.flashcard_label = tk.Label(self,text="Flashcard ahh frame",borderwidth=3, relief="groove",width= 50,height=10,font=("Arial", 15))
+        self.flashcard_label.grid(row=0,column=1)
+
+        self.right_button = tk.Button(self,text= "<", relief="groove",width= 25,height=10,font=("Arial", 10))
+        self.right_button.grid(row=0,column=0)
+
+        self.left_button = tk.Button(self,text= ">", relief="groove",width= 25,height=10,font=("Arial", 10))
+        self.left_button.grid(row=0,column=3)
+
+        self.flashcard_exit = tk.Button(self,text="Exit",relief="groove", command = self.exit_flashcards)
+        self.flashcard_exit.grid(row=1,column=1)
+
+    def exit_flashcards(self):
+        print (gv.flashcard_open)
+        gv.flashcard_open = False
+        self.destroy()
+
+
+
 
 
 
@@ -219,9 +240,13 @@ class to_do_list_module(tk.Toplevel):
         self.remove_td_btn = tk.Button (self,text="Remove top item",borderwidth=3, relief= "solid")
         self.remove_td_btn.grid(row=0, column=1, sticky="new", padx= 30, pady= 30)
 
-        self.exit_td = tk.Button (self,text="Exit", borderwidth= 2, relief= "solid")
+        self.exit_td = tk.Button (self,text="Exit", borderwidth= 2, relief= "solid",command = self.exit_to_do)
         self.exit_td.grid(row=2,column=0, sticky= "w", padx= 30, pady= 30)
 
+    def exit_to_do(self):
+        print (gv.to_do_list_open)
+        gv.to_do_list_open = False
+        self.destroy()
 
 
         self.list_frame = tk.Frame(self,relief= 'raised', borderwidth=1)

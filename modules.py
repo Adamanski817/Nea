@@ -4,15 +4,11 @@ import global_variables as gv
 
 add_item_open = False
 
-def exit_add_item(self):
-    global add_item_open
-    add_item_open = False
-    print("destorying")
-    self.destroy
+
     
-    def open_new_notepad (self):
-        self.notepad_frame.forget
-        self.notepad_frame_write.grid(row=0,column=0)
+    # def open_new_notepad (self):
+    #     self.notepad_frame.forget
+    #     self.notepad_frame_write.grid(row=0,column=0)
     
 
 
@@ -20,29 +16,75 @@ class flashcard_module(tk.Toplevel):
     def __init__(self,master=None):
         super().__init__(master)
         self.title("Flashcard Module")
-        self.geometry ("1000x700")
+        self.geometry ("400x400")
 
-        for i in range(3):
-            self.columnconfigure(i,weight=1)
-        self.rowconfigure(0, weight=1)
-        self.rowconfigure(1, weight=1)
+        self.rowconfigure(0,weight=1)
 
-        self.flashcard_label = tk.Label(self,text="Flashcard ahh frame",borderwidth=3, relief="groove",width= 50,height=10,font=("Arial", 15))
-        self.flashcard_label.grid(row=0,column=1)
+        self.columnconfigure(0,weight=1)
 
-        self.right_button = tk.Button(self,text= "<", relief="groove",width= 25,height=10,font=("Arial", 10))
-        self.right_button.grid(row=0,column=0)
+        self.flashcard_frame= flashcard_select_frame(self)
+        self.flashcard_frame.grid(row=0,column=0)
+        
+        
+class flashcard_select_frame(tk.Frame):
+        def __init__(self,flashcard_parent):
+            super().__init__(flashcard_parent)
+            self.flashcard_parent = flashcard_parent
+            
 
-        self.left_button = tk.Button(self,text= ">", relief="groove",width= 25,height=10,font=("Arial", 10))
-        self.left_button.grid(row=0,column=3)
+            self.rowconfigure(0,weight=1)
 
-        self.flashcard_exit = tk.Button(self,text="Exit",relief="groove", command = self.exit_flashcards)
-        self.flashcard_exit.grid(row=1,column=1)
+            self.columnconfigure(0,weight=1)
+            self.columnconfigure(1,weight=1)
 
-    def exit_flashcards(self):
-        print (gv.flashcard_open)
-        gv.flashcard_open = False
-        self.destroy()
+            self.edit_flashcards_btn = tk.Button(self,text="Edit Flashcards")
+            self.edit_flashcards_btn.grid(row=0,column=0)
+            self.open_flashcards_btn = tk.Button(self,text="open Flashcards",command= self.open_flashcards_folder)
+            self.open_flashcards_btn.grid(row=0,column=1)
+
+        def open_flashcards_folder(self):
+            print("opening flashcards folder")
+            self.flashcard_parent.flashcard_frame.destroy()
+            self.flashcard_parent.flashcard_frame= flashcard_files_frame(self.flashcard_parent)
+
+class flashcard_files_frame(tk.Frame):
+        def __init__(self,flashcard_parent):
+            super().__init__(flashcard_parent)
+            self.flashcard_parent = flashcard_parent
+
+            self.rowconfigure(0,weight=1)
+            for i in range(5):
+                self.columnconfigure(i,weight=1)
+
+            self.select_flashcards_label=tk.Label(self,text="Select Flashcards")
+            self.select_flashcards_label.grid(row=0,column=0)
+
+            for i in range(1,5):
+                self.flashcard_file1 = tk.Button(self,text=f"Flashcards {i}")
+                self.flashcard_file1.grid(row=i,column=1)
+        
+        
+        
+        # for i in range(3):
+        #     self.columnconfigure(i,weight=1)
+        # self.rowconfigure(0, weight=1)
+        # self.rowconfigure(1, weight=1)
+
+        # self.flashcard_label = tk.Label(self,text="Flashcard ahh frame",borderwidth=3, relief="groove",width= 50,height=10,font=("Arial", 15))
+        # self.flashcard_label.grid(row=0,column=1)
+
+        # self.right_button = tk.Button(self,text= "<", relief="groove",width= 25,height=10,font=("Arial", 10))
+        # self.right_button.grid(row=0,column=0)
+
+        # self.left_button = tk.Button(self,text= ">", relief="groove",width= 25,height=10,font=("Arial", 10))
+        # self.left_button.grid(row=0,column=3)
+
+        # self.flashcard_exit = tk.Button(self,text="Exit",relief="groove", command = self.exit_flashcards)
+        # self.flashcard_exit.grid(row=1,column=1)
+    # def exit_flashcards(self):
+    #     print (gv.flashcard_open)
+    #     gv.flashcard_open = False
+    #     self.destroy()
 
 
 
@@ -243,31 +285,31 @@ class to_do_list_module(tk.Toplevel):
         self.exit_td = tk.Button (self,text="Exit", borderwidth= 2, relief= "solid",command = self.exit_to_do)
         self.exit_td.grid(row=2,column=0, sticky= "w", padx= 30, pady= 30)
 
-    def exit_to_do(self):
-        print (gv.to_do_list_open)
-        gv.to_do_list_open = False
-        self.destroy()
-
 
         self.list_frame = tk.Frame(self,relief= 'raised', borderwidth=1)
         self.list_frame.grid(row=0,column=0,columnspan=2,rowspan=2,padx=20, pady=3,sticky="ew")
+        
         self.list_frame.columnconfigure(0,weight=1)
         self.list_frame.columnconfigure(1,weight=1)
         for i in range (10):
             self.list_frame.rowconfigure(i,weight=1)
 
-        self.to_do_list = tk.Label (self.list_frame,text ="Do some computer science nea")
-        self.to_do_list.grid (row=0,column=0,columnspan=2,sticky="nsew", padx= 10, pady=3)
+        # self.to_do_list = tk.Label (self.list_frame,text ="Do some computer science nea")
+        # self.to_do_list.grid (row=0,column=0,columnspan=2,sticky="nsew", padx= 10, pady=3)
         for i in range (9):
             self.list_item_i = tk.Label (self.list_frame,text=f"item {i+1}")
             self.list_item_i.grid (row = i, column= 0, columnspan=2, sticky="nsew",padx=10, pady=3)
 
+    def exit_to_do(self):
+        print (gv.to_do_list_open)
+        gv.to_do_list_open = False
+        self.destroy()
+
 def add_item(self):
-    global add_item_open
-    if add_item_open == True:
+    if gv.add_td_item == True:
         print("Cannot open, already open")
     else:
-        add_item_open = True
+        gv.add_td_item = True
         add_item_module(self)
 
 
@@ -292,3 +334,8 @@ class add_item_module(tk.Toplevel):
 
         self.exit_td_add = tk.Button(self,text="Exit",borderwidth=3, relief= "solid", command = lambda: exit_add_item(self))
         self.exit_td_add.grid(row=2,column=0,padx=3,pady=3)
+
+def exit_add_item(self):
+    gv.add_td_item = False
+    print("destorying")
+    self.destroy()

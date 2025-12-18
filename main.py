@@ -17,4 +17,3 @@ class MainApplicatio(tk.Tk):
 
 application = MainApplicatio()
 application.mainloop()
- 

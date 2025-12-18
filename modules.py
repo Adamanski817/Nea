@@ -16,7 +16,7 @@ class flashcard_module(tk.Toplevel):
     def __init__(self,master=None):
         super().__init__(master)
         self.title("Flashcard Module")
-        self.geometry ("400x400")
+        self.geometry ("900x600")
 
         self.rowconfigure(0,weight=1)
 
@@ -33,19 +33,33 @@ class flashcard_select_frame(tk.Frame):
             
 
             self.rowconfigure(0,weight=1)
+            self.rowconfigure(1,weight=1)
 
             self.columnconfigure(0,weight=1)
             self.columnconfigure(1,weight=1)
+            self.columnconfigure(2,weight=1)
 
-            self.edit_flashcards_btn = tk.Button(self,text="Edit Flashcards")
+            self.edit_flashcards_btn = tk.Button(self,text="Edit Flashcards",command= self.edit_flashcards)
             self.edit_flashcards_btn.grid(row=0,column=0)
             self.open_flashcards_btn = tk.Button(self,text="open Flashcards",command= self.open_flashcards_folder)
             self.open_flashcards_btn.grid(row=0,column=1)
+
+            self.exit_flashcards_btn = tk.Button(self,text="Exit",command=self.exit_flashcards_whole)
+            self.exit_flashcards_btn.grid(row=2,column=3)
+
 
         def open_flashcards_folder(self):
             print("opening flashcards folder")
             self.flashcard_parent.flashcard_frame.destroy()
             self.flashcard_parent.flashcard_frame= flashcard_files_frame(self.flashcard_parent)
+
+        def edit_flashcards(self):
+            self.flashcard_parent.flashcard_frame.destroy()
+            self.flashcard_parent.flashcard_frame = flashcard_edit_frame(self.flashcard_parent)
+
+        def exit_flashcards_whole(self):
+            gv.flashcard_open = False
+            self.flashcard_parent.destroy()
 
 class flashcard_files_frame(tk.Frame):
         def __init__(self,flashcard_parent):
@@ -60,32 +74,90 @@ class flashcard_files_frame(tk.Frame):
             self.select_flashcards_label.grid(row=0,column=0)
 
             for i in range(1,5):
-                self.flashcard_file1 = tk.Button(self,text=f"Flashcards {i}")
-                self.flashcard_file1.grid(row=i,column=1)
+                self.flashcard_file1 = tk.Button(self,text=f"Flashcards {i}", command= self.open_flashcards)
+                self.flashcard_file1.grid(row=i,column=0)
+
+            self.grid(row=0,column=0)
+
+        def open_flashcards(self):
+            self.flashcard_parent.flashcard_frame.destroy()
+            self.flashcard_parent.flashcard_frame= flashcard_frame(self.flashcard_parent)
         
         
+class flashcard_frame(tk.Frame):
+        def __init__(self,flashcard_parent):
+            super().__init__(flashcard_parent)
+            self.flashcard_parent = flashcard_parent        
         
-        # for i in range(3):
-        #     self.columnconfigure(i,weight=1)
-        # self.rowconfigure(0, weight=1)
-        # self.rowconfigure(1, weight=1)
+            for i in range(3):
+                self.columnconfigure(i,weight=1)
+            self.rowconfigure(0, weight=1)
+            self.rowconfigure(1, weight=1)
 
-        # self.flashcard_label = tk.Label(self,text="Flashcard ahh frame",borderwidth=3, relief="groove",width= 50,height=10,font=("Arial", 15))
-        # self.flashcard_label.grid(row=0,column=1)
+            self.flashcard_label = tk.Label(self,text="Flashcard ahh frame",borderwidth=3, relief="groove",width= 50,height=10,font=("Arial", 15))
+            self.flashcard_label.grid(row=0,column=1)
 
-        # self.right_button = tk.Button(self,text= "<", relief="groove",width= 25,height=10,font=("Arial", 10))
-        # self.right_button.grid(row=0,column=0)
+            self.right_button = tk.Button(self,text= "<", relief="groove",width= 25,height=10,font=("Arial", 10))
+            self.right_button.grid(row=0,column=0)
 
-        # self.left_button = tk.Button(self,text= ">", relief="groove",width= 25,height=10,font=("Arial", 10))
-        # self.left_button.grid(row=0,column=3)
+            self.left_button = tk.Button(self,text= ">", relief="groove",width= 25,height=10,font=("Arial", 10))
+            self.left_button.grid(row=0,column=3)
 
-        # self.flashcard_exit = tk.Button(self,text="Exit",relief="groove", command = self.exit_flashcards)
-        # self.flashcard_exit.grid(row=1,column=1)
-    # def exit_flashcards(self):
-    #     print (gv.flashcard_open)
-    #     gv.flashcard_open = False
-    #     self.destroy()
+            self.flashcard_exit = tk.Button(self,text="Exit",relief="groove", command = self.exit_flashcards)
+            self.flashcard_exit.grid(row=1,column=1)
 
+            self.grid(row=0,column=0)
+        
+        def exit_flashcards(self):
+            print (gv.flashcard_open)
+            gv.flashcard_open = False
+            self.flashcard_parent.destroy()
+
+class flashcard_edit_frame(tk.Frame):
+        def __init__(self,flashcard_parent):
+            super().__init__(flashcard_parent)
+            self.flashcard_parent = flashcard_parent
+
+            self.columnconfigure(0,weight=1)
+            self.columnconfigure(1,weight=1)
+
+            for i in range(8):
+                self.rowconfigure(i,weight=1)
+
+            self.flshcard_edit_title = tk.Label(self,text= "Input Flashcard Title")
+            self.flshcard_edit_title.grid(row=0,column=0,columnspan=2)
+
+            self.flashcard_counter= tk.Label(self,text="1",relief= "groove")
+            self.flashcard_counter.grid(row=0,column=2)
+            
+            self.flshcrd_title_input = tk.Entry(self)     
+            self.flshcrd_title_input.grid(row=1,column=0,columnspan=2)       
+            
+            self.flashcard_question_label = tk.Label(self,text="Flashcard Question")
+            self.flashcard_question_label.grid(row=3,column=0)
+            
+            self.flashcard_answer_label = tk.Label(self,text="Flashcard Answer")
+            self.flashcard_answer_label.grid(row=3,column=1)
+
+            self.flashcard_question = tk.Text(self,height=10,width=25)
+            self.flashcard_question.grid(row=4,column=0)
+            
+            self.flashcard_answer = tk.Text(self,height=10,width=25)
+            self.flashcard_answer.grid(row=4,column=1)
+
+            self.new_flashcard_button = tk.Button(self,text="+",relief="groove")
+            self.new_flashcard_button.grid(row=5,column=0,columnspan=2)
+
+            self.exit_flashcard_edit = tk.Button(self,text="Save and exit", command= self.exit_flashcard_edit)
+            self.exit_flashcard_edit.grid(row=6,column=2)
+
+
+            self.grid(row=0,column=0)
+            
+
+        def exit_flashcard_edit(self):
+            print("Saving event")
+            self.flashcard_parent.destroy()
 
 
 
@@ -125,6 +197,9 @@ class notepad_init_frame(tk.Frame):
         self.open_text_btn = tk.Button (self,text="Open a text file", command= self.select_new_notepad)
         self.open_text_btn.grid (row=0, column=1,padx=10)
 
+        self.exit_flashcards_btn = tk.Button(self,text="Exit",command=self.exit_notepad_whole)
+        self.exit_flashcards_btn.grid(row=2,column=3)
+
         self.grid(row=0,column=0)
 
     def open_new_notepad(self):
@@ -136,6 +211,10 @@ class notepad_init_frame(tk.Frame):
         print("Selecting a new notepad")
         self.notepad_parent.notepad_frame.destroy()
         self.notepad_parent.notepad_frame= notepad_select_frame(self.notepad_parent)
+
+    def exit_notepad_whole(self):
+        gv.notepad_open = False
+        self.notepad_parent.destroy()
 
 class notepad_edit_frame(tk.Frame):
     def __init__(self,notepad_parent):
@@ -199,6 +278,7 @@ class notepad_select_frame(tk.Frame):
 class calender_module(tk.Toplevel):
     def __init__(self,parent):
         super().__init__(parent)
+        self.parent = parent
         self.title("calender Module")
         self.geometry ("1100x700")
 
@@ -213,6 +293,8 @@ class calender_frame(tk.Frame):
         super().__init__(calender_parent)
         self.calender_parent = calender_parent
 
+        count = 0
+
         for i in range(17):
             self.rowconfigure(i, weight=1)
 
@@ -221,15 +303,22 @@ class calender_frame(tk.Frame):
 
         for i in range(17):
             for y in range(8):
-                self.time_slot=tk.Label(self,text= f"Event no {i+y}",relief="groove", borderwidth=3,height=10,width=9)
+                self.time_slot=tk.Label(self,text= f"Event no {count}",relief="groove", borderwidth=3,height=10,width=9)
                 self.time_slot.grid(row=i,column=y,padx=10, pady=3)
+                count += 1 
 
         self.add_event_button = tk.Button(self,text="Add an event", command= self.add_new_event)
         self.add_event_button.grid(row=16,column=9)
 
+        self.exit_calendar_button = tk.Button(self,text="Exit calendar",command= self.exit_calendar)
+        self.exit_calendar_button.grid(row=15,column=9)
+
     def add_new_event(self):
-        print("Adding new event")
         new_event_popup(self)
+
+    def exit_calendar(self):
+        gv.calender_open = False
+        self.calender_parent.destroy()
 
 class new_event_popup(tk.Toplevel):
     def __init__(self,parent):

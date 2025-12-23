@@ -227,7 +227,8 @@ class notepad_edit_frame(tk.Frame):
         for i in range(2):
             self.columnconfigure(i,weight=1)
 
-        self.title = tk.Label(self,text= "Untitled")
+        self.var =tk.StringVar(value= "Untitled")
+        self.title = tk.Entry(self,textvariable=self.var)
         self.title.grid(row=0,column=0)
 
         self.text_box= tk.Text(self,width= 50, height= 35)
@@ -241,6 +242,14 @@ class notepad_edit_frame(tk.Frame):
 
     def exit_notepad(self):
         print("exiting notepads")
+        new_notepad = self.text_box.get("1.0","end-1c")
+        print (new_notepad)
+        new_notepad_title = self.title.get()#"1.0","end-1c")
+        print(new_notepad_title)
+        #save new_notepad_title & new_notepad data
+        with open( f"storage/Notepad/{new_notepad_title}.txt","w" ) as f:
+            f.write(new_notepad)
+
         self.notepad_parent.notepad_frame.destroy()
         self.notepad_parent.notepad_frame= notepad_init_frame(self.notepad_parent)
 
@@ -267,8 +276,7 @@ class notepad_select_frame(tk.Frame):
 
     def open_new_notepad(self):
         self.notepad_parent.notepad_frame.destroy()
-        self.notepad_parent.notepad_frame= notepad_edit_frame(self.notepad_parent)    
-
+        self.notepad_parent.notepad_frame= notepad_edit_frame(self.notepad_parent)
     def exit_notepad(self):
         print("exiting notepads")
         self.notepad_parent.notepad_frame.destroy()
@@ -305,7 +313,7 @@ class calender_frame(tk.Frame):
             for y in range(8):
                 self.time_slot=tk.Label(self,text= f"Event no {count}",relief="groove", borderwidth=3,height=10,width=9)
                 self.time_slot.grid(row=i,column=y,padx=10, pady=3)
-                count += 1 
+                count += 1
 
         self.add_event_button = tk.Button(self,text="Add an event", command= self.add_new_event)
         self.add_event_button.grid(row=16,column=9)

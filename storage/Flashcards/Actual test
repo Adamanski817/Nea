@@ -1,0 +1,6 @@
+What is the purpose of the cpu
+To do the fetch decode execute cycle
+3 registers
+Mar,mdr, acc
+What happens to the pc in the fde
+Increments by 1

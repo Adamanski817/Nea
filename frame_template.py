@@ -9,7 +9,7 @@ calender_open = False
 to_do_list_open = False
 
 class central(tk.Frame):
-    def __init__(self,parent): #parent frame ie where the frame will be places ):
+    def __init__(self,parent): #parent frame ie where the frame will be placed
         super().__init__(parent)
         self.parent= parent
     
@@ -18,6 +18,8 @@ class central(tk.Frame):
             self.columnconfigure(i,weight=1)
 
         self.rowconfigure(0, weight=1)
+
+        # the labels and buttons that appear on the inital frame
 
         self.flashcard_label = tk.Label(self,text="Flashcard core",borderwidth=3,relief="groove")
         self.flashcard_label.grid(row=0,column = 0)

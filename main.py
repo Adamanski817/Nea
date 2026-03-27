@@ -10,7 +10,6 @@ class MainApplicatio(tk.Tk):
 
         self.geometry("1100x900")   
         self.title("Main Dashboard")
-        self.iconphoto(False, tk.PhotoImage(file = 'hampt.png'))
 
         self.rowconfigure(0, weight=1)
         self.columnconfigure(0,weight=1)
